@@ -1,4 +1,4 @@
-FROM maven:3.8.7-openjdk:18-jdk
+FROM maven:3.8.7-openjdk-18-slim
 WORKDIR /app
 COPY . /app
 RUN mvn package -DskipTests
