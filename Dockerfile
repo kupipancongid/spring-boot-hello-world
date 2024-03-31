@@ -1,6 +1,10 @@
-FROM maven:3.8.7-openjdk-18-slim
+# Stage 1: Build aplikasi dengan Maven
+FROM maven:3.8.7-openjdk-18-slim AS build
 WORKDIR /app
-COPY . /app
+COPY . .
 RUN mvn package -DskipTests
-EXPOSE 8080
-CMD ["java", "-jar", "target/hello-world-0.0.1-SNAPSHOT.jar"]
+
+# Stage 2: Jalankan aplikasi dengan Java Runtime Environment (JRE)
+FROM maven:3.8.7-openjdk-18-slim
+COPY --from=build /app/target/*.jar /app.jar
+CMD ["java", "-jar", "/app.jar"]
